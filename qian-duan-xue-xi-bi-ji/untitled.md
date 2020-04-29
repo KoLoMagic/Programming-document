@@ -91,3 +91,16 @@ fn()
     * 传入后变为局部变量，执行速度会更快
     * 方便压缩代码
 
+### 作用域问题示例
+
+#### 问题1
+
+```javascript
+console.log(a) //a为undefined
+var a = 1 //a为1
+
+//
+console.log(a) //报错
+a = 1 //预解析时无var
+```
+

@@ -12,4 +12,5 @@
 * [代码大全2](bian-cheng-xue-xi-bi-ji/dai-ma-da-quan-2.md)
 * [计算机科学导论](bian-cheng-xue-xi-bi-ji/ji-suan-ji-ke-xue-dao-lun.md)
 * [JavaScript - 廖雪峰](bian-cheng-xue-xi-bi-ji/javascript-liao-xue-feng.md)
+* [ECMAScript 6 入门 - 阮一峰](bian-cheng-xue-xi-bi-ji/ecmascript-6-ru-men-ruan-yi-feng.md)
 

@@ -6,5 +6,7 @@
 
 ## 使用GitBook阅读
 
+> 需要梯子
+
 [查看目录](https://3360998464.gitbook.io/git/)
 

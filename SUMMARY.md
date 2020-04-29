@@ -2,3 +2,7 @@
 
 * [目录](README.md)
 
+## 前端 - 学习笔记
+
+* [JavaScript 笔记](qian-duan-xue-xi-bi-ji/javascript-bi-ji.md)
+

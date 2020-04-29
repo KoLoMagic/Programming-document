@@ -123,7 +123,7 @@ console.log(a)
 a()
 
 // 预解析
-function a () {
+function a () { // 根据函数之间的冲突规则，最后一个声明的函数存活
     console.log(4)
 }
 

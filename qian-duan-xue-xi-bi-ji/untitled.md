@@ -203,5 +203,17 @@ a = 2
 console.log(a) //2
 ```
 
+```javascript
+var a = 1
+function fn (a) {
+    console.log(a) // undefined
+    a = 2
+}
+fn()
+console.log(a) // 1
 
+// 预解析
+var a = undefined
+argument a = undefined // 参数与局部变量同等待遇
+```
 

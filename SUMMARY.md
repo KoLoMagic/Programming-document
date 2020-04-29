@@ -4,5 +4,5 @@
 
 ## 前端 - 学习笔记
 
-* [Untitled](qian-duan-xue-xi-bi-ji/untitled.md)
+* [JavaScript 学习笔记](qian-duan-xue-xi-bi-ji/untitled.md)
 

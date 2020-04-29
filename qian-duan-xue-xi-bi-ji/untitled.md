@@ -60,7 +60,7 @@
 
 * [with](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/with)
 * 延长作用域链，会影响查询速度
-  * 只是少写了变量的名称
+* 优点为少写了变量的名称
 * **不推荐使用**
 
 ### JS解析机制

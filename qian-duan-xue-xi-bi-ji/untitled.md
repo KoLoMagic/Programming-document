@@ -104,3 +104,35 @@ console.log(a) //报错
 a = 1 //预解析时无var
 ```
 
+#### 问题2
+
+```javascript
+console.log(a) 
+var a = 1
+console.log(a)
+function a () {
+    console.lgo(2)
+}
+console.log(a)
+var a = 3
+console.log(a)
+function a () {
+    console.log(4)
+}
+console.log(a)
+a()
+
+// 预解析
+function a () {
+    console.log(4)
+}
+
+// 逐行执行
+a()
+1
+1
+3
+3
+报错 // 此时a为3，非函数，不能执行，所以报错
+```
+

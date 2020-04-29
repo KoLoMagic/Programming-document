@@ -4,8 +4,6 @@ description: 学习笔记
 
 # ECMAScript 6 入门 - 阮一峰
 
-
-
 ##  [let 和 const 命令](https://es6.ruanyifeng.com/#docs/let)
 
 > 1. [let 命令](https://es6.ruanyifeng.com/#docs/let#let%20%E5%91%BD%E4%BB%A4)

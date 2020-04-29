@@ -69,7 +69,7 @@ function fn(argument){
     var age = 10
 }
 fn()
-//输出undefined
+// 输出undefined
 ```
 
 #### 需要注意的问题
@@ -97,11 +97,11 @@ fn()
 
 ```javascript
 console.log(a) //a为undefined
-var a = 1 //a为1
+var a = 1 // a为1
 
 //
-console.log(a) //报错
-a = 1 //预解析时无var
+console.log(a) // 报错
+a = 1 // 预解析时无var
 ```
 
 #### 问题2
@@ -134,5 +134,72 @@ a()
 3
 3
 报错 // 此时a为3，非函数，不能执行，所以报错
+```
+
+#### 问题3
+
+```markup
+<script>
+    console.log(a)
+</script>
+
+<script>
+    var a = 1
+</script>
+
+// 报错 预解析是分标签进行的
+```
+
+```markup
+<script>
+    var a = 1
+</script>
+
+<script>
+    console.log(a)
+</script>
+
+// 1 
+```
+
+#### 问题4
+
+```javascript
+var a = 1
+function fn () {
+    console.log(a) // undefined 
+    var = 2
+}
+fn()
+consolo.log(a) // 1
+
+// 预解析 全局
+a = undefined
+fn()
+// 预解析 局部
+a = undefined
+```
+
+```javascript
+var a = 1
+function fn () {
+    console.log(a) // 1
+    a = 2          // 2
+}
+fn() // 1
+cosole.log(a) // 2
+
+// 预解析 全局
+a = undefined
+fn()
+//预解析 局部
+没有预解析
+a 通过作用域链 寻找到a = 1
+
+//逐行执行
+a = 1
+fn() // 1
+a = 2
+console.log(a) //2
 ```
 

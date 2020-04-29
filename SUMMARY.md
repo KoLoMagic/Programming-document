@@ -1,6 +1,6 @@
 # Table of contents
 
-* [每天进步一点点](README.md)
+* [目录](README.md)
 
 ## 前端 - 学习笔记
 

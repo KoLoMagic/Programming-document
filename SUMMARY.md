@@ -6,3 +6,7 @@
 
 * [JavaScript 学习笔记](qian-duan-xue-xi-bi-ji/untitled.md)
 
+## 编程学习笔记
+
+* [程序员修炼之道](bian-cheng-xue-xi-bi-ji/cheng-xu-yuan-xiu-lian-zhi-dao.md)
+

@@ -14,8 +14,7 @@
 
 ### 全局变量
 
-> [JavaScript 关于全局对象](https://www.cnblogs.com/echo-dauntless/p/9737451.html)
-
+* [JavaScript 关于全局对象](https://www.cnblogs.com/echo-dauntless/p/9737451.html)
 *  变量声明时如果不使用 **var** 关键字，那么它就是一个全局变量，即便它在函数内定义。
 * 在web页面中全局变量属于 window 对象
 

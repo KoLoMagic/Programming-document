@@ -217,3 +217,13 @@ var a = undefined
 argument a = undefined // 参数与局部变量同等待遇
 ```
 
+```javascript
+var a = 1
+function fn (a) {
+    console.log(a)
+    a = 2
+}
+fn(a) // 1
+console.log(a) // 1
+```
+

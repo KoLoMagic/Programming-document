@@ -26,10 +26,10 @@
 | 按值传递参数 | 按值传递参数 |
 | 用typeof检测类型 | 用instanceof检测类型 |
 
-#### 全局变量
+#### 要点
 
 *  变量声明时如果不使用 **var** 关键字，那么它就是一个全局变量，即便它在函数内定义。
-* **不推荐使用，会造成变量的污染**
+  * **不推荐使用，会造成变量的污染**
 
 ### 作用域
 
@@ -65,28 +65,50 @@
 
 ### JS解析机制
 
-* JS解析过程
-  * 预解析
-    * 分别在全局作用域与局部作用域预解析
-    * 全局
-      * 查找所有的var
-        * 查找后的var赋值undefined
-      * 查找function
-        * 拿到function后的方法名称（如：fn）
-        * 预解析时会声明fn
-    * 局部
-      * 查找所有var
-        * 查找后的var赋值undefined
-      * 查找参数（argument）
-        * 查找后的argument赋值undefined
-      * 查找function
-        * 拿到function后的方法名称（如：fn） 
-        * 预解析时就已经声明了fn
-  * 逐行解读代码
-    * 把具体数值赋值给预解析的var
-      * 没有具体数值的变量会保留undefined
-    * function会在此阶段跳过，继续执行下面的代码
-      * 因为已经在预解析时声明过了
+#### 要点
+
+* 预解析时，argument（参数）与局部变量同等对待
+* 同名冲突
+  * 变量与变量冲突
+    * 如声明两次同名变量，则在预解析时，都会执行一遍undefined
+  * 变量与函数名冲突
+    * 预解析时var会被舍弃，保留function
+  * 函数与函数冲突
+    * 后声明的留下
+* 代码风格问题
+  * **声明函数尽量在全局、函数下声明或充当变量方法**
+  * **不要在判断或循环中声明函数**
+    * 老版本浏览器可能预解析不到
+* JQuery中的window
+  * 把window作为一个参数传入函数中
+    * 传入后变为局部变量，执行速度会更快
+    * 方便压缩代码
+* 多个&lt;script&gt;标签中的规则
+  * 按顺序进行解析
+
+#### JS解析过程
+
+* 预解析
+  * 分别在全局作用域与局部作用域预解析
+  * 全局
+    * 查找所有的var
+      * 查找后的var赋值undefined
+    * 查找function
+      * 拿到function后的方法名称（如：fn）
+      * 预解析时会声明fn
+  * 局部
+    * 查找所有var
+      * 查找后的var赋值undefined
+    * 查找参数（argument）
+      * 查找后的argument赋值undefined
+    * 查找function
+      * 拿到function后的方法名称（如：fn） 
+      * 预解析时就已经声明了fn
+* 逐行解读代码
+  * 把具体数值赋值给预解析的var
+    * 没有具体数值的变量会保留undefined
+  * function会在此阶段跳过，继续执行下面的代码
+    * 因为已经在预解析时声明过了
 
 ```javascript
 var name = 'xm'
@@ -99,27 +121,6 @@ function fn(argument){
 fn()
 //输出undefined
 ```
-
-#### 需要注意的问题
-
-* argument（参数）与局部变量同等对待
-* 同名冲突
-  * 变量与变量冲突
-    * 如声明两次同名变量，则在预解析时，都会执行一遍undefined
-  * 变量与函数名冲突
-    * 预解析时var会被舍弃，保留function
-  * 函数与函数冲突
-    * 后声明的留下
-* 代码风格问题
-  * 声明函数在全局、函数下声明或充当变量方法
-  * 不要在判断或循环中声明
-    * 老版本浏览器预解析不到
-* JQuery中的window
-  * 把window作为一个参数传入函数中
-    * 传入后变为局部变量，执行速度会更快
-    * 方便压缩代码
-* 多个&lt;script&gt;标签中的规则
-  * 按顺序进行解析
 
 ### 作用域问题示例
 
@@ -352,7 +353,7 @@ obj.someProperty = null
 
 ## JS 函数
 
-### JS对象
+### JS 对象
 
 > [JS中的对象，就是任意值的集合](https://www.runoob.com/js/js-obj-intro.html)
 >
@@ -443,5 +444,397 @@ for (var p in cat) {
 }
 ```
 
-### 
+### 函数介绍
+
+> [函数是由事件驱动的或者当它被调用时执行的可重复使用的代码块](https://www.runoob.com/js/js-functions.html)
+>
+> [JavaScript 函数定义 - 菜鸟教程](https://www.runoob.com/js/js-function-definition.html)
+>
+> [函数 - MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/function)
+
+#### 要点
+
+* 一次封装（定义），四处使用
+* 只有将函数作为对象，才能发挥全部特性
+* return 的两种含义
+  * 1.停止执行
+  * 2.返回后面的值
+* 函数的定义与调用
+  * 定义
+    * 封装代码
+    * 什么都没有发生
+  * 调用
+    * 创建作用域
+      * 传参
+      * 执行代码
+    * 销毁作用域
+      * 销毁所有局部变量
+* 对象中的函数被称为方法
+
+### 函数的二象性
+
+1. 可以调用
+2. 函数是对象
+
+### **函数与对象**
+
+* 相同的定义方式
+  * 定义对象的两种方式
+    * 字面量 ｛｝
+    * 构造函数 new Object\( \)
+  * 定义函数的两种方式
+    * 字面量 function add\(num1,num2\){ }
+    * 构造函数 new Function\('num1','num2','...'\)
+* 都可以添加属性和方法
+  * 对象添加属性和方法
+    * var person ={ }
+    * person.name = 'xm'
+    * person.setName = function \(name\) { this.name =name }
+  * 函数添加属性和方法
+    * function add \(num1,num2\) { return num1+num2 }
+    * add.sex = 'male'
+    * add.setSex = function \(sex\) { this.sex = sex }
+
+```javascript
+function add (num1,num2) { 
+    return num1+num2 
+}
+
+add.sex = 'male'
+
+add.setSex = function (sex) {
+    this.sex = sex
+}
+
+console.log(add.sex) // male
+console.log(add.setSex('female')) // undefined 因为没有return
+console.log(add.sex) // female 因为被上面的setSex更改了
+console.log(add(1,2))
+```
+
+* 都可以作为数据值使用
+  * 对象与函数归根结底都是数据值
+  * 数据保存在内存中，对象与函数都保存在堆内存中（大小不固定）
+  * 对象与函数都需要一个变量来找到并引用\(调用\)它
+
+```javascript
+var person = {}
+var add = function () { // 在此声明的函数名在局部作用域中，如在内部不使用，可以用匿名函数声明
+    return 1
+}
+console.log(add()) // 1
+console.log(add) // function () 函数本体
+
+
+// 数组
+[{},function () { // 可以命名，也可以通过数组下标来访问
+
+}]
+
+// 对象
+{
+    family:{},
+    setName:fucntion (argument){
+    
+    }
+}
+```
+
+* 都可以作为参数使用
+
+```javascript
+// 定时函数，第一个参数为函数，第二个参数为定时的毫秒数
+setTimeout(function(){
+    console.log(1)
+},1000)
+
+setTimeout(fn,1000) //不加（），传递的是函数本体，加（）是执行函数
+function fn () {
+    console.log(1)
+}
+```
+
+* 都可以作为返回值
+
+```javascript
+function fn () {
+    return function () { // 如增加函数名，因其在局部作用域中，所以只能在内部调用
+        console.log(1)
+    }
+}
+
+var newFn = fn() // 没有调用，只是把fn()的返回结果赋值给了newFn，所以无值输出
+newFn() // 输出1
+fn()() // 输出1
+```
+
+## 
+
+### 函数的定义方式及区别
+
+> 定义方式：字面量、构造函数
+
+#### 要点
+
+* 使用 function声明 要注意 **声明提前** 的问题
+  * 声明提前：在预解析时，使用function关键字声明的函数会被提前声明
+  * 声明提前有什么用？
+    * 先执行，后声明的方式可以正常解读
+
+#### 字面量的定义方式
+
+* function 声明
+
+```javascript
+// 声明
+function add () {
+
+}
+// 调用
+add()
+```
+
+* var 赋值表达式
+
+```javascript
+// 声明
+var add = function () {
+
+}
+// 调用
+add()
+```
+
+#### 构造函数的定义方式
+
+* new
+
+```javascript
+// 声明
+// 参数及函数体都必须以字符串的形式传入
+var add = new Function('num1','num2','return num1 + num2')
+
+// 调用
+add()
+```
+
+#### 区别
+
+|  | function声明 | var 赋值表达式 | new |
+| :--- | :--- | :--- | :--- |
+| 声明方式 | 字面量 | 字面量 | 构造函数 |
+| 参数 | 使用变量传递 | 使用变量传递 | 使用字符串传递 |
+| 预解析 | 可先执行 | 不可先执行 | 只能后执行 |
+| 使用优先级 | 高 | 高 | 低 |
+
+* 声明方式
+  * 字面量声明的方式更直观、简洁、方便书写
+* 参数
+  * 使用字符串传递时，首先要解析字符串，然后实例化构造函数，要比使用变量传递的效率低
+* 预解析
+  * 使用function声明方式，先执行与后执行的结果一致（声明提前）
+  * 使用var 赋值表达式方式，不能先执行
+
+```javascript
+// 先声明，后定义
+function add () {
+    return 1
+}
+console.log(add()) // 1
+
+// 先执行，再声明
+
+console.log(add()) // 1
+function add () {
+    return 1
+}                  
+
+```
+
+```javascript
+// 先赋值，后调用
+var add = function () {
+    return 1
+}
+console.log(add()) // 1 
+
+// 先调用，后赋值 
+console.log(add()) // 报错, not a function
+var add = function () { //在预解析时，由于是赋值语句，只会执行var赋值，不会提前定义function
+    return 1
+}
+
+
+// 预解析
+// 1.先寻找var 及 function
+// 2.var赋值undefined，function提前定义
+```
+
+### 函数定义的位置
+
+#### 全局作用域中定义
+
+* 可以访问区域
+  * 任何位置
+
+```javascript
+//全局作用域可访问
+add()            // 声明前可访问
+function add () {
+    add()        // 内部可访问
+}
+add()            // 声明后可访问
+
+// 局部作用域可访问
+function subtract(argument){
+    add()        // 局部作用域可访问
+}
+
+
+```
+
+#### 局部作用域（函数作用域）中定义
+
+* 仅作用域链的同层、外层可以访问
+
+```javascript
+fn() // 访问不到
+
+function add () {
+    fn()            // 可以访问
+    function fn () {
+        fn()        // 可以访问
+        function fn3 () {
+            fn()    // 可以访问
+        }
+    }
+    function fn2 () {
+        fn()        // 可以访问
+    }
+}
+
+
+```
+
+#### 代码块中的定义
+
+* JS中无块级作用域
+* 尽量不在if代码块中声明函数，无实际if，else效果
+
+```javascript
+// 相当于在全局作用域中解析，不管是true还是false，add()与 subtract()都会提前声明
+if (true) {
+    function add () {    // 可以执行
+    
+    }
+}else{
+    function subtract () {    // 可以执行
+    
+    }
+}
+
+// 在全局作用域中预解析，var赋值undefined，逐行解读代码时，因为条件是true，else中的代码不会执行
+if (true) {
+    var add = function () {    // 可以执行
+    
+    }
+}else{
+    var subtract = function () {    // 不会执行，此时subtract为undefined
+    
+    }
+}
+```
+
+#### 对象中的函数定义
+
+* 对象中的函数被称为方法
+
+```javascript
+var person = {
+    name:'xm'
+    setSex:function (sex) {
+        this.sex = sex
+    }
+}
+
+person.setName= function (name) {
+    this.name = name
+}
+
+setSex()   // 报错，setSex不在全局作用域中，必须要提现其拥有对象
+person.setSex() // 正确调用
+
+```
+
+## 
+
+### 函数的调用 - 普通函数
+
+#### 普通函数的调用
+
+* 命名函数的调用
+* 匿名函数的调用
+  * 变量赋值调用
+    * 函数名代表函数本体,\(\)为调用执行
+  * 直接调用
+    * 调用方式与变量赋值原理一致，但使用function关键字开头会引起解析器只认为是函数的声明，不会执行，所以需要将执行之后的结果赋值给一个变量，或使用\(\)、增加操作符、在函数中调用
+      * 核心思维为规避function关键字开头
+
+```javascript
+// 一般情况的调用
+add(1,2) 
+
+// 普通函数的调用
+// 命名函数
+function add () {
+
+}
+add() // 调用
+
+// 匿名函数
+// 1.赋值给变量调用
+var add = funciton () {
+
+}
+add() // 调用
+
+// 2.1 直接调用
+var add = function () {
+
+}() // 调用，这种方式会使函数在定义时就直接执行，称之为自我执行的匿名函数
+
+// 2.2.1 直接调用
+(function () {
+
+})() // 函数也是一个对象or数据值，所以可以使用()
+
+// 2.2.2 直接调用
+(function () {
+    console.log(1)
+}()) // 与2.2.1的区别为执行完毕再包装上()，效果一致
+
+// 2.2.3 直接调用
+！+-~function () { // 均为合法操作符，可以正确执行
+    console.log(1)
+}() 
+
+// 2.2.4 直接调用
+console.log(function () {
+    return 1
+}())
+
+```
+
+#### 递归调用
+
+```javascript
+//递归函数
+function factorial (num) {
+    if (num <= 1) return 1
+    return num * factorial(num-1)
+}
+console.log(factorial(5))
+```
+
+#### 
 

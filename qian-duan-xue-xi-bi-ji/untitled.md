@@ -354,5 +354,94 @@ obj.someProperty = null
 
 ### JS对象
 
+> [JS中的对象，就是任意值的集合](https://www.runoob.com/js/js-obj-intro.html)
+>
+> [JavaScript 对象 - MDN](https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Objects)
 
+#### 要点
+
+* 在 JavaScript中，几乎所有的事物都是对象，如 var car = "Fiat"
+* 对象也是一个变量，但对象可以包含多个值
+  * 包含多个值的特性使JavaScript 对象也被称为键值对的容器
+  *  键值对在 JavaScript 对象通常称为 **对象属性**
+* [对象属性名不加引号与加引号的区别](https://www.cnblogs.com/swwag/p/7474649.html)
+* 对象的创建方式
+  * 字面量
+    * 简单，直接，一目了然
+  * 构造函数
+  * 使用ES5中的Object.create\( \)
+    * 老版本浏览器可能会存在兼容性问题
+
+```javascript
+{
+    'name' : 'tom'
+    'age' : 4
+}
+
+// 对象需要通过赋值给变量来使用
+// 字面量的创建方式
+var cat {
+    'name' : 'tom'
+    'age' : 4
+    'family' : ['father','mom']
+    'speak' : function () {
+        console.log('(>^ω^<)')
+    },
+    'friend' : {
+        'name' : 'Jerry'
+        'age' : 4
+    }
+}
+
+// 构造函数的创建方式
+var cat = new Object() 
+// 相当于
+var cat = {}
+```
+
+#### 对象的使用
+
+* 赋值
+
+```javascript
+cat.name = 'Tim'
+cat['name'] = 'Tim'
+
+// 创建新的属性并赋值
+cat.type = '加菲猫'
+```
+
+* 读取
+
+```javascript
+console.log(cat.name)
+console.log(cat['name'])
+```
+
+* 删除
+  * [delete 操作符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/delete)
+
+```javascript
+delete cat.type
+delete cat['type']
+```
+
+* 检测
+  * [in 运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/in)
+
+```javascript
+console.log('name' in cat)
+```
+
+* 枚举
+  * [ `for...in`语句](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in)
+
+```javascript
+for (var p in cat) {
+    console.log(p) // 遍历属性名
+    console.log(cat[p]) // 遍历属性值：会将p的值计算出，然后到cat对象中查找
+}
+```
+
+### 
 

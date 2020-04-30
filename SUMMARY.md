@@ -2,7 +2,7 @@
 
 * [目录](README.md)
 
-## 前端 - 学习笔记
+## 前端 - 笔记 <a id="qian-duan-xue-xi-bi-ji"></a>
 
 * [JavaScript 学习笔记](qian-duan-xue-xi-bi-ji/untitled.md)
 

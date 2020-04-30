@@ -6,7 +6,7 @@
 
 * [JavaScript 学习笔记](qian-duan-xue-xi-bi-ji/untitled.md)
 
-## 编程读书笔记 <a id="bian-cheng-xue-xi-bi-ji"></a>
+## 读书笔记 <a id="bian-cheng-xue-xi-bi-ji"></a>
 
 * [程序员修炼之道](bian-cheng-xue-xi-bi-ji/cheng-xu-yuan-xiu-lian-zhi-dao.md)
 * [代码大全2](bian-cheng-xue-xi-bi-ji/dai-ma-da-quan-2.md)

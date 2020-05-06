@@ -451,6 +451,8 @@ for (var p in cat) {
 > [JavaScript 函数定义 - 菜鸟教程](https://www.runoob.com/js/js-function-definition.html)
 >
 > [函数 - MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/function)
+>
+> [JavaScript函数的属性和方法](https://baijiahao.baidu.com/s?id=1627803653383833202&wfr=spider&for=pc)
 
 #### 要点
 
@@ -462,7 +464,7 @@ for (var p in cat) {
 * 函数的定义与调用
   * 定义
     * 封装代码
-    * 什么都没有发生
+      * 什么都没有发生
   * 调用
     * 创建作用域
       * 传参
@@ -471,10 +473,12 @@ for (var p in cat) {
       * 销毁所有局部变量
 * 对象中的函数被称为方法
 
-### 函数的二象性
+#### 函数的二象性
 
 1. 可以调用
 2. 函数是对象
+
+## 
 
 ### **函数与对象**
 
@@ -770,7 +774,7 @@ person.setSex() // 正确调用
 
 ### 函数的调用 - 普通函数
 
-#### 普通函数的调用
+> 匿名函数从定义到调用，称为匿名函数的自执行
 
 * 命名函数的调用
 * 匿名函数的调用
@@ -800,12 +804,12 @@ add() // 调用
 
 // 2.1 直接调用
 var add = function () {
-
+    console.log(1)
 }() // 调用，这种方式会使函数在定义时就直接执行，称之为自我执行的匿名函数
 
 // 2.2.1 直接调用
 (function () {
-
+    console.log(1)
 })() // 函数也是一个对象or数据值，所以可以使用()
 
 // 2.2.2 直接调用
@@ -827,6 +831,8 @@ console.log(function () {
 
 #### 递归调用
 
+> [什么是递归?先了解什么是递归](https://www.cnblogs.com/Pushy/p/8455862.html)
+
 ```javascript
 //递归函数
 function factorial (num) {
@@ -836,5 +842,626 @@ function factorial (num) {
 console.log(factorial(5))
 ```
 
-#### 
+## 
+
+### 函数的调用 - 方法的调用
+
+#### 方法如何调用
+
+```javascript
+var operation = {
+    add:funtion (num1,num2) {
+        return num1 + num2
+    },
+    subtract:funtion (num1,num2) {
+        return num1 - num2
+    }
+}
+
+operation.add(1,1)
+
+
+doucment.onclick = function () {
+    console.log('你点击了文档！')    // 浏览器自动调用
+}
+doncment.onclick()    // 手动调用执行，可以用来模拟鼠标点击
+```
+
+#### 方法定义规则
+
+* 引号的使用
+  * 合法的标识符可以不加引号（子母、数字、下划线、$，并且不以数字开头）
+
+```javascript
+var operation = {
+    // 合法
+    add:funtion (num1,num2) {
+        return num1 + num2
+    },
+    // 合法
+    subtract:funtion (num1,num2) {
+        return num1 - num2
+    },
+    // 不合法
+    @:funtion () {
+        console.log('@') // 报错
+    },
+    // 更改为
+    '@':funtion () {
+        console.log('@') // 正常输出
+    },    
+}
+```
+
+#### 方法的一般调用
+
+```javascript
+var operation = {
+    // 合法
+    add:funtion (num1,num2) {
+        return num1 + num2
+    },
+    // 合法
+    subtract:funtion (num1,num2) {
+        return num1 - num2
+    },
+    // 不合法
+    @:funtion () {
+        console.log('@') // 报错
+    },
+    // 更改为
+    '@':funtion () {
+        console.log('@') // 正常输出
+    },    
+}
+
+// 合法命名调用
+console.log(operation.add(1,2))
+
+// 非法命名调用
+console.log(operation['@'](1,2))
+
+// 变量调用
+var key = 'add'
+console.log(operation.key(1,2)) // 报错
+console.log(operation[key](1,2))
+```
+
+#### 方法的链式调用
+
+* 方法可以链式调用
+  * 原理：前面的函数调用之后，返回对象本身
+* **需要注意使用场景**
+
+```javascript
+$('p').html('段落').css('background-color','red')......    // 方法的链式操作
+// 优势：简洁，直观
+```
+
+```javascript
+var operation = {
+    // 合法
+    add:funtion (num1,num2) {
+        console.log(num1 + num2)
+        return this    // 指代operation
+    },
+    // 合法
+    subtract:funtion (num1,num2) {
+        console.log(num1 - num2)
+        return this
+    },
+    // 不合法
+    @:funtion () {
+        console.log('@') // 报错
+    },
+    // 更改为
+    '@':funtion () {
+        console.log('@') // 正常输出
+    },    
+}
+
+// 链式调用
+operation.add(1,2).subtract(2,1) 
+```
+
+## 
+
+### 函数的调用 - 构造函数的调用
+
+#### 构造函数
+
+> [通过构造函数来实例化对象的意义是什么？](https://www.zhihu.com/question/333812657)
+
+* 构造函数与普通函数的区别
+  * 调用
+    * add\( \)
+    * new Person\( \)
+  * 返回值
+    * 普通函数调用后有返回值，如没有return，返回undefined
+    * 构造函数返回的是对象
+
+```javascript
+// 普通函数
+add()
+
+// 构造函数
+new Person()
+```
+
+* js中的内置构造函数
+  * Object\( \)
+  * Array\( \)
+* 构造函数一般会首字母大写，以区分一般函数
+
+### 函数的调用 - 间接调用
+
+> 普通函数、方法、构造函数的调用均为直接调用
+
+* 间接调用：通过call\( \)、apply\( \)
+  * 每一个函数下面都有call\( \)及apply\( \)
+* 为什么需要call\( \)、apply\( \)
+  * 可以继承父类的一些属性及方法
+  * 可以借用其他对象的一些方法
+  * 可以判断数据类型
+    * 在typeof、instanceof不足以应对的场景
+      * typeof只能判断基本类型
+      * instanceof返回的是布尔值
+      * call\( \)、apply\( \)可以明确返回数据类型的名称
+* call\( \)的参数
+  * 第一个参数，改变this指向
+  * 后续参数，传递的数据
+* apply\( \)的参数
+
+  * 第一个参数，改变this指向
+  * 后续参数，传递的数据\(数组形式\)
+
+```javascript
+function add () {
+
+}j
+add()    // 直接调用
+
+var name = 'xm'
+var person = {}
+person.name = 'xh'
+person.getName = function () {
+    return this.name
+}
+cosole.log(person.getName())    // 直接调用，输出xh
+cosole.log(person.getName.call(window)) // 间接调用，改变this指向后，输出xm
+cosole.log(person.getName.apply(window)) // 一个参数时，作用与call()一致
+
+// call()，apply()区别
+function add (num1,num2) {
+    return num1 + num2
+}
+console.log(add(1,2))
+console.log(add.call(window,1,2))
+console.log(add.apply(window,[1,2]))
+
+// 改变this指向,应用场景
+function add (num1,num2) {
+    return num1 + num2
+}
+var datas = [1,2]    // 返回值是数组时，可避免循环遍历取出传递
+console.log(add.apply(window,datas))
+```
+
+## 
+
+### 参数的类型
+
+* 形参（形式参数）：在函数定义时，所期望接收的参数
+  * 形参是一个占位符，等待被真正传入的参数所替换，无实际意义
+* 实参（实际参数）：实际传递时的参数
+  * 替换形参进行真正的逻辑处理
+
+```javascript
+function add(num1,num2){    // 形参
+    return num1 + num2
+}
+add(1,2)    // 实参
+```
+
+* 参数传递的本质
+  * ​将实参赋值给形参
+    * 基本数据类型，赋值相当于拷贝副本
+      * 修改实参，形参不会受到影响
+    * 引用数据类型，赋值是堆内存中的地址
+      * 修改实参，形参会受到影响
+
+```javascript
+var person = {}
+function setPerson (obj) {
+    obj.name = 'xm'
+}
+setPerson(person)
+```
+
+### 参数的个数
+
+* 实参个数与形参个数相等时
+* 实参个数小于形参个数时
+  * 场景：参数传递错误；可选参数
+* 实参个数大于形参格式时
+  * 场景：参数传递错误；不限制参数
+  * 使用arguments对象
+    * argunments实际是一个类数组，保存着实参的值
+
+```javascript
+// 实参个数与形参个数相等时
+function add(num1,num2){    // 形参
+    return num1 + num2
+}
+add(1,2)    // 实参
+
+// 实参个数小于形参个数时
+add(1) // num1 =1 num2 =undefined 遵循预解析规则
+
+// 可选参数，原始场景
+function pow (base,power) {
+    return Math.pow(base,power)
+}
+console.log(pow(3,2))
+
+// 可选参数，更改场景，使幂数在未传递时默认为2，传递时为实际参数
+function pow (base,power) {
+    //if (!power) power = 2 // 简写
+    power = power || 2    // 短路操作
+    return Math.pow(base,power)
+}
+console.log(pow(3))
+
+
+// 实参个数大于形参格式时，原始场景
+function add(num1,num2){    // 形参
+    return num1 + num2
+}
+add(1,2,3,4,5)    // 实参
+
+// 实参个数大于形参格式时，更改场景，使参数的个数不受限制，函数可以接收任意多的值
+function add(){    // 形参
+    if(arguments.length == 0) return
+    var sum = 0
+    for (var i = 0; i < arguments.length; i++){
+        sum += arguments[i]
+    }
+    return sum
+}
+console.log(add(1,2,3,4,5))    // 实参
+```
+
+### arguments
+
+> [ **`arguments`** 是一个对应于传递给函数的参数的类数组对象](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments)
+
+* 每一个函数都有
+* 存在于局部作用域中
+* arguments是一个类数组
+  * 类数组：不是真正的数组，类似数组
+  * 类数组是一个对象
+
+```javascript
+// arguments 内部结构
+{
+    '0':1,
+    '1':2,
+    '2':3,
+    '3':4,
+    lenght:4
+}
+```
+
+* arguments中的每一个数据与形式参数一一对应
+  * arguments与形参均指向同一个值（非拷贝数据副本，而是使用别名）
+
+```javascript
+// 原始
+function fn (name) {
+    console.log(name)
+}
+fn('xm')    // 返回xm
+
+// 修改
+function fn (name) {
+    arguments[0] = ''
+    console.log(name)
+}
+fn('xm')    // 返回''
+```
+
+* arguments是每一个函数中所独有的，存在于独立的局部作用域中，并且不可以垮函数
+
+```javascript
+function fn () {
+    console.log(arguments)    // 1
+    function fn2 () {
+        console.log(arguments)    // 2
+    }
+    fn2(2)
+}
+fn(1)
+```
+
+* arguments.callee属性
+  * 作用：指代函数本身
+  * **严格模式下不允许使用**
+
+```javascript
+function add(num1,num2){    // 形参
+    console.log(arguments.callee)    // add(num1,num2)
+    return num1 + num2
+}
+add(1,2)    // 实参
+
+// 在递归中的应用
+// 原始
+function factorial (num) {
+    if (num <= 1) return 1
+    return num * factorial(num - 1)
+}
+
+// 更改
+function factorial (num) {
+    if (num <= 1) return 1
+    return num * arguments.callee(num - 1)
+}
+
+// 严格模式下
+var factorial = function fn(num) {    // 更改var的名称不会受到影响
+    if (num <= 1) return 1
+    return num * fn(num - 1)
+}
+
+//控制实参的个数与形参一致
+function add(num1,num2){
+    if(arguments.length != add.length)        // add.length属性可以获取形参的个数
+    throw new Error('请传入' + add.length + '个参数') // 主动抛出异常
+    return num1 + num2                 
+}
+add(1,2) 
+```
+
+## 
+
+### 什么可以作为参数
+
+> 参数就是数据值
+
+* 无参数
+* 基本数据类型作为参数
+  * 注意布尔值作为参数的问题
+  * undefined作为参数
+    * 场景：未传入；设计不合理
+  * null作为参数
+* 引用数据类型作为参数
+  * 数组作为参数
+  * 对象作为参数
+  * 函数作为参数
+
+```javascript
+// 1.1无参数
+function fn () {
+
+}
+
+// 1.2无参数
+function fn2 () {
+    var num = 1
+    function fn2 () {    // 通过作用域链，可以找到fn()下的变量
+        console.log(num)
+    }
+}
+
+// 2.传入数字
+function add (num1,num2) {
+    return num1 + num2
+}
+add(1,1)
+
+// 3.传入字符串
+$('p') // JQuery 选择DOM节点
+
+// 4.传入布尔值 （不推荐），函数应该专属于解决一件事，下述函数可分成两个函数
+function fn (boon) {
+    if (bool) {
+    
+    }else{
+    
+    }
+}
+
+// 5.1 传入undefined（未传入）
+function add (num1,num2) {
+    return num1 + num2
+}
+add(1)    // 未传入值，则在预解析时赋值undefined
+
+// 5.2 传入undefined（设计不合理）
+function pow (power,base) {
+    power = power || 2
+    return Math.pow(base,power)
+}
+cosole.log(undefined,3) // 此时要么传入2，要么传入undefined
+
+// 6.传入null
+add(a,null)
+
+// 7.传入数组
+$.each([1,2,3],function (index,item) {
+    console.log(index)
+    console.log(item)
+})
+
+// 8.传入对象
+$.each({name:'xm',sex:'male'},function (index,item) {
+    console.log(index)
+    console.log(item)
+})
+
+// 9.传入函数
+$.each({name:'xm',sex:'male'},function (index,item) {
+    console.log(index)
+    console.log(item)
+})
+```
+
+#### 函数设计技巧 - 使用对象作为参数
+
+* 参数数量在3个及3个以上时，可以考虑使用对象作为参数
+* 更改需求
+  * 场景：参数过多时，传入参数的顺序及传入的内容
+  * 解决方案：使用对象
+
+```javascript
+// 原始
+function setPerson (name,sex) {
+    var persion = {}
+    person.name = name
+    person.sex = sex
+}
+setPerson('xm','male')
+
+// 更改需求
+function setPerson (name,sex,age,tel,addr) {
+    var persion = {}
+    person.name = name
+    person.sex = sex
+    person.age = age
+    person.tel = tel
+    person.addr = addr 
+}
+setPerson('xm','male',18,'182...','中国China')
+
+// 使用对象
+function setPerson (obj) {
+    var persion = {}
+    person.name = obj.name || 'xh'
+    person.sex = obj.sex || 'male'
+    person.age = obj.age || '18'
+    person.tel = obj.tel || '110'
+    person.addr = obj.addr  || 'China'
+}
+setPerson({
+    name:'xm',
+    age:'18',
+    addr:'China'
+    sex:'male'
+})
+```
+
+## 
+
+### return、continue、break
+
+#### return
+
+* 在函数中使用
+* 表示在函数中返回值
+
+#### continue
+
+* 用在循环中
+* 表示跳出本次循环
+  * 接着下一次循环，并非跳出整个循环
+
+```javascript
+for (var i = 0; i < 10; i ++) {
+    if (i == 4) continue
+}
+```
+
+#### break
+
+* 用在循环中
+* 表示跳出整个循环
+  * 执行循环外的语句
+
+```javascript
+for (var i = 0; i < 10; i ++) {
+    if (i == 4) break
+}
+```
+
+### 什么可以作为返回值
+
+* 无返回值
+  * 1.1与1.2在返回值层面作用是一致的
+  * 1.1中，return还表示函数到此终止，可以用于提前退出函数
+* 返回undefined
+  * 1.1与1.2相当于返回undefined
+* 数字作为返回值
+* 字符串作为返回值
+* 布尔值作为返回值
+  * 应用场景：表单验证
+* null作为返回值
+* 数组作为返回值
+* 对象作为返回值
+* 函数作为返回值
+
+```javascript
+// 1.1无返回值
+function fn () {
+    return
+}
+
+// 1.2无返回值
+function fn () {
+
+}
+
+// 2.返回undefined
+function fn () {
+    return undefined
+}
+
+// 3.数字作为返回值
+function add () {
+    return 1
+}
+
+// 4.字符串作为返回值
+return '1'
+alert('1,2,3')
+alert([1,2,3]) // 默认执行toString() 强制转换为字符串
+
+// 5.布尔值作为返回值
+return true/false
+
+// 6.null作为返回值
+return null
+
+// 7.数组作为返回值
+// 原始
+function add (num1,num2) {
+    return num1 + num2
+}
+
+// 更改
+function add (num1,num2) {
+    return [num1 + num2, num1, num2] // 返回结果、相加的具体数值
+}
+
+// 8.对象作为返回值
+function getPerson () {
+    return {    // 如果左花括号写在下一行，JS解析器会默认在此处添加一个;
+        name:'xm',
+        age:18
+    }
+}
+
+// 9.函数作为返回值
+function fn () {
+    return function fn2 () {
+    
+    }
+}
+// 直接调用
+fn()()
+// 赋值调用
+var newFn = fn()
+newFn()
+```
+
+
 

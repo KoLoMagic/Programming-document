@@ -1,4 +1,4 @@
-# JavaScript 学习笔记
+# JavaScript 笔记
 
 ## 闭包
 

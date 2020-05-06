@@ -4,7 +4,7 @@
 
 ## 前端 - 笔记 <a id="qian-duan-xue-xi-bi-ji"></a>
 
-* [JavaScript 笔记](qian-duan-xue-xi-bi-ji/untitled.md)
+* [JavaScript 基础](qian-duan-xue-xi-bi-ji/untitled.md)
 
 ## 读书笔记 <a id="bian-cheng-xue-xi-bi-ji"></a>
 

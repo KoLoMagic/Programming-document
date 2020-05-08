@@ -5,6 +5,7 @@
 ## 前端 - 笔记 <a id="qian-duan-xue-xi-bi-ji"></a>
 
 * [JavaScript 基础](qian-duan-xue-xi-bi-ji/untitled.md)
+* [微信小程序](qian-duan-xue-xi-bi-ji/wei-xin-xiao-cheng-xu.md)
 
 ## 读书笔记 <a id="bian-cheng-xue-xi-bi-ji"></a>
 

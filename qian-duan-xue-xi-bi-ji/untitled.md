@@ -1,15 +1,5 @@
 # JavaScript 基础
 
-## 闭包
-
-> [JavaScript 闭包 \_ 菜鸟教程](https://www.runoob.com/js/js-function-closures.html)
-
-#### 作用
-
-* 可以使得函数拥有私有变量
-* 闭包是一种保护私有变量的机制，在函数执行时形成私有的作用域，保护里面的私有变量不受外界干扰。
-* 直观的说就是形成一个不销毁的栈环境。
-
 ## JS 变量、作用域
 
 ### 变量
@@ -370,7 +360,8 @@ obj.someProperty = null
 * 对象的创建方式
   * 字面量
     * 简单，直接，一目了然
-  * 构造函数
+  * 构造方法
+  * new Object\( \)
   * 使用ES5中的Object.create\( \)
     * 老版本浏览器可能会存在兼容性问题
 
@@ -395,10 +386,24 @@ var cat {
     }
 }
 
-// 构造函数的创建方式
+// new Object()的创建方式
 var cat = new Object() 
 // 相当于
 var cat = {}
+
+
+// 构造方法的创建方式
+function person (name,sex,age) {
+    this.name = name    // this.name是属性，name是参数
+    this.sex = sex
+    this.age = age
+    this.show = function () {
+        console.log(this.name)
+    }
+}
+
+var obj1 = new person('zhangsan','nan',18)
+console.log(obj1.name)
 ```
 
 #### 对象的使用
@@ -1002,7 +1007,7 @@ new Person()
   * 每一个函数下面都有call\( \)及apply\( \)
 * 为什么需要call\( \)、apply\( \)
   * 可以继承父类的一些属性及方法
-  * 可以借用其他对象的一些方法
+  * **可以借用其他对象的一些方法**
   * 可以判断数据类型
     * 在typeof、instanceof不足以应对的场景
       * typeof只能判断基本类型
@@ -1464,5 +1469,111 @@ var newFn = fn()
 newFn()
 ```
 
+## 面向对象（OOP）
 
+> 面向对象是对代码的一种抽象，对外统一提供调用接口的编程思想
+>
+> 基于原型的面向对象方式中，对象（Object）是依靠构造器（constructor）构造出来的
+
+### 面向对象概述
+
+* 属性：事物的特性
+  * 自身所拥有的东西，如：人拥有名字、年龄、性别
+* 方法：事物的功能
+  * 如：人会学习、玩耍、唱歌
+* 对象：事物的一个实例
+  * 如：众多人中的一个人
+* 原型：JS函数中由prototype属性引用了一个对象，既原型对象（原型）
+* Object：JavaScript中所有的自定义函数及面向对象都继承于它
+
+```javascript
+alert(F.prototype)    // prototpye是一个原型，在内存中它指向一个地址，地址中存储了一个对象
+alert(F.prototype instanceof Object)    // Objects是javaScript中的父对象
+```
+
+#### 对象的创建方式
+
+* 使用函数构造器，构造出一个对象
+  * 构造器构造的对象，效率较低
+  * 传递给函数构造器的数据，都会被当做生成函数的变量的参数
+    * 作为参数的数据，不能改变其顺序
+
+```javascript
+// 构造函数对象
+var obj = new Function(var1,var2...,functionBody()) // 自定义函数可以使用前面的变量值
+```
+
+* 以函数的方式调用函数构造器，定义的对象，首先执行的是自定义函数，再执行创建对象
+
+```javascript
+var obj = new Function('a','b','return a + b')
+var s = obj(2,5)
+console.log(s)    // 7
+```
+
+* 对象分为函数对象及普通对象，凡是通过new Function\(\)创建的对象，都是函数对象，其他的都是普通对象
+
+### 闭包
+
+> 闭包是一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数）
+>
+> [JavaScript 闭包 \_ 菜鸟教程](https://www.runoob.com/js/js-function-closures.html)
+
+#### 要点
+
+* javascript中，函数内部可以直接读取全局变量
+
+#### 闭包的作用
+
+* 可以使得函数拥有私有变量
+* 闭包是一种保护私有变量的机制，在函数执行时形成私有的作用域，保护里面的私有变量不受外界干扰。
+* 直观的说就是形成一个不销毁的栈环境。
+
+#### 闭包的实际应用
+
+* 读取函数内部变量
+* 让内部变量的值保留在内存中
+
+```javascript
+function a () {
+    var i = 0
+    function () {
+        alert (++i) // 让i的值保留在内存中
+    }
+    return b
+}
+
+var c = a()
+c() // 1
+```
+
+```javascript
+function f1 () {
+    var n = 999
+    nAdd = function () {
+        n = n + 1
+    }
+    function f2 () {
+        alert(n)
+    }
+    return f2
+}
+var rs = f1()
+rs() // 999
+nAdd() // 执行
+rs() // 1000
+```
+
+#### 闭包的优点
+
+* 有利于封装
+  * 当闭包函数作为另一个函数的调用时，封装性会比较强
+* 可以访问局部变量
+
+#### 闭包的缺点
+
+> 闭包需谨慎使用
+
+* 内存占用严重，容易产生内存泄漏
+  * 局部变量一直存在于内存中
 

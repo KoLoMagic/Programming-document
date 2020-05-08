@@ -7,6 +7,7 @@
 * [JavaScript 基础](qian-duan-xue-xi-bi-ji/untitled.md)
 * [微信小程序](qian-duan-xue-xi-bi-ji/wei-xin-xiao-cheng-xu.md)
 * [koa2](qian-duan-xue-xi-bi-ji/koa2.md)
+* [前端工程化](qian-duan-xue-xi-bi-ji/qian-duan-gong-cheng-hua.md)
 
 ## 读书笔记 <a id="bian-cheng-xue-xi-bi-ji"></a>
 

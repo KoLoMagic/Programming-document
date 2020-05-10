@@ -1,4 +1,4 @@
-# JavaScript 基础
+# JavaScript
 
 ## JS 变量、作用域
 
@@ -344,7 +344,7 @@ obj.someProperty = null
 
 ## JS 函数
 
-### JS 对象
+### JS 对象简介
 
 > [JS中的对象，就是任意值的集合](https://www.runoob.com/js/js-obj-intro.html)
 >
@@ -357,11 +357,10 @@ obj.someProperty = null
   * 包含多个值的特性使JavaScript 对象也被称为键值对的容器
   *  键值对在 JavaScript 对象通常称为 **对象属性**
 * [对象属性名不加引号与加引号的区别](https://www.cnblogs.com/swwag/p/7474649.html)
-* 对象的创建方式
+* 对象的创建方式，[JavaScript创建对象的七种方式](https://xxxgitone.github.io/2017/06/10/JavaScript%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E5%BC%8F/)
   * 字面量
     * 简单，直接，一目了然
   * 构造方法
-  * new Object\( \)
   * 使用ES5中的Object.create\( \)
     * 老版本浏览器可能会存在兼容性问题
 
@@ -386,24 +385,13 @@ var cat {
     }
 }
 
-// new Object()的创建方式
+// 构造方法的创建方式
 var cat = new Object() 
 // 相当于
 var cat = {}
 
 
-// 构造方法的创建方式
-function person (name,sex,age) {
-    this.name = name    // this.name是属性，name是参数
-    this.sex = sex
-    this.age = age
-    this.show = function () {
-        console.log(this.name)
-    }
-}
 
-var obj1 = new person('zhangsan','nan',18)
-console.log(obj1.name)
 ```
 
 #### 对象的使用
@@ -1576,4 +1564,493 @@ rs() // 1000
 
 * 内存占用严重，容易产生内存泄漏
   * 局部变量一直存在于内存中
+
+## 
+
+### 声明对象的方式
+
+> [JavaScript创建对象的七种方式](https://xxxgitone.github.io/2017/06/10/JavaScript%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%83%E7%A7%8D%E6%96%B9%E5%BC%8F/)
+>
+> [JavaScript 创建对象的 7 种方法](https://juejin.im/entry/58291447128fe1005cd41c52)
+
+* 字面量
+
+```javascript
+var person = {
+    name : 'zhangsan',
+    age : 26,
+    sex : 'man',
+    eat : function (fds) {
+        console.log('我在吃' + fds)
+    }
+}
+```
+
+* new Object\(\)
+  * Object是所有对象的基类、根，所有javascript对象都是由Object延伸的
+
+```javascript
+var box = new Object()
+box.name = 'zhangsan'
+box.age = 100
+box.infos = fucntion (str) {
+    return this.name + "---" + this.age + "---" + str    // this 代表当前对象
+}
+```
+
+* 构造方法声明对象
+  * 函数内部只能使用this访问内部属性或方法
+
+```javascript
+function person (name,sex,age) {
+    this.name = name    // this.name是属性，name是参数
+    this.sex = sex
+    this.age = age
+    this.show = function () {
+        console.log(this.name)
+    }
+}
+
+var obj1 = new person('zhangsan','nan',18)
+console.log(obj1.name)
+```
+
+* 工厂模式
+  *  按照某种模式，不断的创造对象
+  * 工厂模式在调用时，不需要使用new，因其内部已经使用new Object\( \)
+  * 工程模式下（任何模式下），同种模式中的创造出来的对象都是独立存在的
+
+```javascript
+function createObject (name,age) {
+    var obj = new Object()
+    obj.name = name // obj.name是属性，name是参数
+    obj.age = age
+    obj.run = function () { // 在obj对象中，调用其属性及方法必须使用this
+        return this.name + "---" + this.age
+    }
+    obj.say = function () {
+        return "今天天气不错"
+    }
+    return obj    // *** 必须返回Object本身
+}
+
+var box = crerteObject('张三',18)
+console.log(box.name)    // 调用属性
+console.log(box.run())    //调用方法 
+```
+
+#### 构造方法模式与工厂模式的区别
+
+* 构造方法模式不会显示创建对象，需要将属性直接赋值给this，不需要return对象
+* 工厂模式必须在内部创建Object对象，并且需要返回Object对象，属性及方法均赋值给Object对象
+
+## 
+
+### 对象的遍历
+
+* 有些对象或集合可以当做数组处理
+
+```javascript
+var ren = {}
+ren.name = 'zhangsan'
+ren.age = '18'
+ren.len = '180'
+ren.demo = function () {
+    console.log(this.name)
+}
+```
+
+* [for in](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in)
+
+```javascript
+// 在遍历对象时，i的取值是对象所有的属性名称和方法名称
+for (var i in ren) {
+    console.log(i)
+}
+
+// 利用上面一点，可以循环遍历出属性的数值、方法定义的代码
+for (var i in ren) {
+    console.log(ren[i])
+}
+```
+
+* 使用构造函数声明的对象要实例化以后才可以进行遍历
+
+```javascript
+function ren () {    // 此时的ren是一个方法的名称
+    this.name = 'zhangsan'
+    this.age = '18'
+    this.len = '180'
+    this.demo = function () {
+        alert(this.name)
+    }
+}
+
+var r = new ren()
+for (var i in r){
+    alert(ren[i])
+}
+```
+
+## 
+
+### 对象的存储
+
+> 对象在内存中的分布
+
+* 栈内存
+* 堆内存
+* 代码段
+* 静态段（数据段）
+* 对象都是一个引用
+  * 引到的是一个16进制的地址
+  * 地址上描述的是对象中的属性和方法
+  * 方法中的内容定义在代码段中
+* 在调用或创建对象时
+  * 寻找属性 → 堆内存
+  * 调用方法 → 先在堆内存中找到方法名称 → 再到代码段中寻找方法中的数据
+
+## 
+
+### 封装
+
+> 封装（Encapsulation）：把对象内部数据和操作细节进行隐藏
+>
+> 大多面向对象的语言都支持封装的特性，提供了private关键字来隐藏某些属性或方法，用来限制被封装的数据或者内容的访问，只对外提供一个对象的专门访问的接口
+>
+> 接口一般为调用方法
+>
+> JS中没有提供专门封装的关键字，但可以使用闭包来实现封装
+
+* 函数内部声明的变量，外部是访问不到的
+* 共有与私有内存的区别是：能否在对象外部被访问
+
+```javascript
+// 封装1.
+function demo () {
+    var n = 1    // 局部变量，在方法外部不能直接访问
+    function test () {    // 外部调用的出口
+        n ++
+    }
+    test()
+    return n
+}
+
+demo() // 2
+
+// 封装 完整版
+function demo () {
+    var n = 1
+    function test () {
+        return n ++
+    }
+    return test
+}
+alert(demo()) // 返回test()
+
+var at = demo()
+alert(at())
+
+// test()的另一种写法
+this.test = function () {
+    return ++ n
+}
+```
+
+* 函数的作用域在内部无法被外部直接访问，但是在函数方法作用域内，如果有其他的function（上述代码中的test），可以访问到其局部变量（上述代码中的n），用test可以当做中转站，使n可以在外部访问到，因此test\( \)也被称为特权方法，使用这种方法在面向对象中创建的内容具有真正的封装的意义
+
+```javascript
+// 封装2.
+function A(){
+    function _xx(){
+        alert(11)
+    }
+    this.xx = function () {
+            return _xx 
+    }
+}
+
+A.prototype = {    // 原型的方式
+    oth : function () {
+        console.log('普通方法')
+    }
+}
+
+var a = new A()
+console.log(a.xx())
+
+var b = a.xx()    // a.xx() = function _xx
+b()
+```
+
+* 封装2.与封装1.的区别
+  * 封装2.为构造加原型的混合方式
+  * 封装2.在每次生成新的对象时（上述 var a），对象内部每次都要通过this.xx来创建其属性和方法，通过调用的步骤要比封装1.多一步，这种情况不利于继承，而且每次调用都会占用内存
+
+### 原型继承
+
+> 通过原型和原型链引出继承的概念
+>
+> [显式原型和隐式原型的联系](https://www.cnblogs.com/liubinghaoJavaScript/p/7478432.html)
+
+#### 要点
+
+* prototype是对象
+* \_proto\_是属性
+
+#### 原型
+
+* 是利用prototype对象添加属性和方法
+
+#### 原型链
+
+* JS在创建对象（不论是普通对象还是函数对象）的时候
+* 都有一个叫做\_\_proto\_\_的内置属性
+* 用于指向创建它的函数对象的原型对象prototype
+
+```javascript
+// 原型：用prototype对象来添加属性和方法
+var person = function () {}
+var p = new person()    // 实例化，可以拆分为三个阶段来实现
+console.log(person.prorotype instanceof Object) // true 证明person.prototype是object
+console.log(p.__proto__ instanceof Object) // true
+console.log(p.__proto__ instanceof person.prototype) // true
+
+// 阶段1.
+var p = {} // 创建对象
+// 阶段2.
+p.__proto__ = person.prototype    // __proto__是对象自带的一个属性
+// 阶段3. 初始化对象(p)
+person.call(p)
+```
+
+```javascript
+var person = function () {
+    this.name = 'zhangsan'
+}
+var p = new person()   
+
+p.name // 当p中不存在此属性，就会去链式查找
+       // 先到person.__proto__中查找，相当于p.__proto__
+       // 因p.__proto__ == Object == person.prototype,每个Object都有_proto__属性
+       // 如p.__proto__中找不到就会继续向外查找，p.__proto__.__proto__
+
+// 对象的隐式原型指向构造该对象的构造函数的显式原型 
+// 对象的隐式原型：p.__proto__
+// 构造该对象的构造函数：var person = function (){}      
+// 显式原型：prototype
+// 也就是p.__proto__ →  person.prototype
+```
+
+```javascript
+var person = function () {
+    
+}
+person.prototype.say = function () {
+    console.log('天气很好')
+}
+
+var p = new person() // p.__proto__ = person.prototype
+p.say() 
+```
+
+```javascript
+var person = function () {
+    
+}
+person.prototype.say = function () {
+    console.log('天气很好')
+}
+person.prototype.gonzi = 500
+
+
+var programmer = function () {}
+programmer.prototype = new person() 
+programmer.prototype.wcd = function () { 
+    console.log('明天天气也不错') 
+}
+programmer.prototype.gongzi = 1000 // 同名方法，子方法会覆盖父方法
+
+
+var p = new programmer() // p.__proto__ = programmer.prototype = new person()
+p.say() // 天气很好
+
+// 原型链的实现过程
+// programmer.prototype = new person() 
+// 相当于 
+// 1. var p1 = new person()
+// 2. programmer.prototype = p1
+// p.say()时 
+// p.__proto__ → programmer.prototype == p1 → 
+// → p1.__proto__ == person.prototype.say()
+```
+
+```javascript
+// 原型继承
+function person (name,age) {
+    this.name = name
+    this.age = age
+}
+person.prototype.sayhello = function () {
+    console.log('属性name值' + this.name)
+}
+
+var per = new person('zhangsan',20)
+per.sayhello()
+
+function studene () {}
+student.prototype = new person('李四',18) // 原型继承
+student.prototype.grade = 3
+student.prototype.test = function () {
+    console.log(this.grade)
+}
+var s = new student()
+s.sayhello()
+
+// 过程分析
+// s.sayhello() → s下无sayhello()方法 → s.__proto__ = student.prototype
+// student.prototype = p1 → p1.__proto__ = person.prototype
+```
+
+### 构造继承
+
+> 在子类内部构造父类的对象，实现继承
+
+* 构造函数的继承是在对象内部创建父对象的对象
+  * 父对象被子对象继承后，所有的属性和方法，都将传递到子对象中去
+
+```javascript
+function parents (name) {
+    this.name = name
+    this.say = function () {
+        console.log('父亲的名字：' + this.name)
+    }
+}
+
+function child (name,age) { // 继承parents
+    //this.pObj = parents(name) // 方式1. 子对象的参数name传递到父对象中
+    this.pObj = parents()    // 方式2. 子对象的参数name传递到父对象中
+    this.pObj(name)
+    this.age = age 
+    this.sayC = function () {
+        console.log('child：' + this.name)
+    }
+    
+}
+// 调用父对象
+var p = new parents('zhangsan')
+p.say()
+
+// 调用子对象
+var c = new child('李四',20)
+c.sayC()
+// 子对象执行流程
+// this.pObj(name) → parents(name) → this.name = name // 李四
+// this.sayC → this.name → parents/this.name    // 李四
+```
+
+### call和apply的用法
+
+* call：调用一个对象的方法，以另一个对象替换当前对象
+  * obj.call\(方法,var1,var2,var3...\)
+* apply：应用某一对象的一个方法，用另一个对象替换当前对象
+  * obj.apply\(方法,\[var1,var2,var3...\]\)
+
+```javascript
+function person (name,age,len) {
+    this.name = name
+    this.age = age
+    this.len = len
+    this.say = function () {
+        console.log(this.name + ':' + this.age + ':' + this.len)
+    }
+}
+
+// call继承
+function student (name,age) {
+    person.call(this,name,age)
+}
+
+// 父对象
+var per = new person('张三',25,'170')
+per.say
+// 子对象
+var stu = new student('李四',18)
+stu.stu
+```
+
+```javascript
+function person (name,age,len) {
+    this.name = name
+    this.age = age
+    this.len = len
+    this.say = function () {
+        console.log(this.name + ':' + this.age + ':' + this.len)
+    }
+}
+
+// apply继承
+function teacher(name,age,len) {
+    person.apply(this,[name,age,len])
+}
+
+// 父对象
+var tea = new teacher('王五',20,'180')
+tea.say()
+```
+
+### 对象冒充
+
+> 将父类的属性和方法一起传给子类作为特权属性和特权方法
+
+```javascript
+function person(name,age){
+    this.name = name
+    this.age = age
+    this.sayHi = function () {
+        alert('hi')
+    }
+}
+
+person.prototype.walk = function () {
+    console.log('walk.....')
+}
+
+// 对象冒充
+function sudent (name,age,grade) {
+    this.newMethod = person // 冒充person对象,传递特权属性和特权方法给子类
+    this.newMethod(name,age)
+    this.grade = grade
+}
+
+var s1 = new student('张三',15,5)
+
+console.log(s1.name)
+```
+
+### 关键字
+
+* instanceof：变量是否是对象的实例
+* delete：删除对象的属性
+  * 不能删除方法
+  * 不能删除变量
+  * 不能删除原型链中的属性
+* call、apply
+
+```javascript
+function add (a,b) {
+    console.log(a + b)
+}
+function subs (a,b) {
+    console.lgo(a - b)
+}
+add.call(subs,5,3) // 8 subs 替换成了 add，此处只能引用已经存在的对象
+
+add.apply(subs,[5,3])
+```
+
+* callee：返回正在执行的function对象
+* arguments：引用函数的参数，如果是表示参数，可以使用for in 遍历
+
+
 

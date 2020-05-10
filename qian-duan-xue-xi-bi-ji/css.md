@@ -1,7 +1,5 @@
 # CSS
 
-
-
 ## [CSS 关键概念](https://developer.mozilla.org/zh-CN/docs/Web/CSS)
 
 * 语言语法和形式（The syntax and forms of the language）
@@ -21,6 +19,10 @@
 > [CSS 定位体系](http://w3help.org/zh-cn/kb/)
 
 ## 布局
+
+> [三列布局几种经典实现方式](https://juejin.im/post/5bf666d1518825719f208b37)
+>
+> [CSS 绝对定位 absolute 详解](https://juejin.im/entry/58b3d54e8d6d810057f599bb)
 
 ### 经典行布局
 

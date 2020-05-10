@@ -14,6 +14,24 @@
 * 媒体查询
 * 动画
 
+## 浮动
+
+> [CSS清除浮动的8种方法以及优缺点](https://juejin.im/post/5d6f2b845188250587727971)
+
+```text
+.clearfix{
+    content: "";
+    display: block;
+    overflow:hidden;
+    visibility:hidden;
+    height: 0;
+    clear: both;
+}
+.clearfix{
+    zoom: 1;
+}
+```
+
 ## 定位及包含块
 
 > [CSS 定位体系](http://w3help.org/zh-cn/kb/)
